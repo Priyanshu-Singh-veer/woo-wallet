@@ -125,6 +125,7 @@ if ( ! class_exists( 'Woo_Wallet' ) ) :
 			require_once WOOWALLET_PLUGIN_DIR . 'core/includes/classes/class-woo-wallet-settings.php';
 
 			require_once WOOWALLET_PLUGIN_DIR . 'core/includes/classes/class-woo-wallet-run.php';
+			// For woocommerce functionality
 			require_once WOOWALLET_PLUGIN_DIR . 'core/includes/classes/woocommerce_wlt.php';
 		}
 

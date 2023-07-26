@@ -6,8 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Class Woo_Wallet_Helpers
  *
- * This class contains repetitive functions that
- * are used globally within the plugin.
+ * -This class contains user field action takes place on init.
  *
  * @package		WOOWALLET
  * @subpackage	Classes/Woo_Wallet_Helpers
@@ -16,27 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class Woo_Wallet_Helpers{
 
+	
 	/**
-	 * ######################
-	 * ###
-	 * #### CALLABLE FUNCTIONS
-	 * ###
-	 * ######################
-	 */
-
-	/**
-	 * HELPER COMMENT START
-	 *
-	 * Within this class, you can define common functions that you are 
-	 * going to use throughout the whole plugin. 
-	 * 
-	 * Down below you will find a demo function called output_text()
-	 * To access this function from any other class, you can call it as followed:
-	 * 
-	 * WOOWALLET()->helpers->output_text( 'my text' );
-	 * 
+	 * Constructor Method
 	 */
 	function __construct(){
+		// Hooks to add wallet balance field to user profile
 		add_action('show_user_profile',array($this,'wallet_balance_field'));
 		add_action('edit_user_profile', array($this,'wallet_balance_field'));
 		add_action('personal_options_update', array($this,'custom_save_user_wallet_balance_field'));
@@ -44,7 +28,10 @@ class Woo_Wallet_Helpers{
 		add_action('user_register', array($this,'set_wallet_balance_for_new_user'));
 		
 	}
-	 
+	 /**
+	  * Render wallet Balance field in User Profile Sections
+	  * @param object $user
+	  */
 	public function wallet_balance_field($user){
 		if (current_user_can('edit_users')) {
 			?>
@@ -61,6 +48,10 @@ class Woo_Wallet_Helpers{
 			<?php
 		}
 	}
+	/**
+	 * Saves wallet balance data on profile update
+	 * @param int $user_id
+	 */
 	public function custom_save_user_wallet_balance_field($user_id) {
 		if (current_user_can('edit_users')) {
 			if (isset($_POST['wallet_balance'])) {
@@ -69,6 +60,10 @@ class Woo_Wallet_Helpers{
 			}
 		}
 	}
+	/**
+	 * Set wallet balance to 0 when new user created
+	 * @param int $user_id
+	 */
 	public function set_wallet_balance_for_new_user($user_id) {
 		// Check if the user is newly registered
 		if (is_int($user_id) && !get_user_meta($user_id, 'wallet_balance', true)) {
